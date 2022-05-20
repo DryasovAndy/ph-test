@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+    php:
+        image: webdevops/php-nginx-dev:8.1-alpine
+        volumes:
+            - ./:/app
+            - ~/.ssh:/home/application/.ssh
+            - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+        working_dir: /app
+        environment:
+            WEB_DOCUMENT_ROOT: /app/public
+            WEB_DOCUMENT_INDEX: index.php
+            PHP_MAX_EXECUTION_TIME: 3600
+            PHP_DISPLAY_ERRORS: 1
+            COMPOSER_MEMORY_LIMIT: -1
+            DOMAIN_NAME: ${DOMAIN_NAME}
+            VIRTUAL_HOST: ${DOMAIN_NAME}
+            APPLICATION_UID: shell id -u
+            APPLICATION_GID: shell id -g
+            PHP_DEBUGGER: xdebug
+            XDEBUG_REMOTE_AUTOSTART: 1
+            COMPOSER_VERSION: 2
+            PHP_IDE_CONFIG: "serverName=local"
+            XDEBUG_SESSION: "PHPSTORM"
+
+        ports:
+            - ${ENGINE_PORT}:80
+        depends_on:
+            - database
+        networks:
+            - appnet
+
+    database:
+        image: mariadb:10.7.3
+        volumes:
+            - ./docker/mariadb:/var/lib/mysql/
+        environment:
+            MARIADB_USER: ${MARIADB_USER}
+            MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+            MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+            MARIADB_DATABASE: ${MARIADB_DATABASE}
+        ports:
+            - '3307:3306'
+        networks:
+            - appnet
+
+networks:
+    appnet:
+        driver: "bridge"
+
+volumes:
+    mariadb_data:
+        driver: "local"
+

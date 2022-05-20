@@ -1,0 +1,31 @@
+.search-conditions {
+    height: 800px;
+}
+
+.left-side-search {
+    width: 25%;
+    float: left;
+    margin: 1% 4%;
+    height: 600px;
+}
+
+.search_section {
+    height: 400px;
+}
+
+select.form-control[multiple], select.form-control[size] {
+    height: 400px;
+}
+
+.search-result {
+    float: left;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+.mb-3 {
+}
+
+#map {
+    height: 500px;
+}
