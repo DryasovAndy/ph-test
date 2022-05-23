@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
             'method' => 'GET',
             'path' => '/countries/search',
             'input' => LocationsCountriesSearchGet::class,
-            ],
+        ],
     ],
     itemOperations: [
         'get' => [
