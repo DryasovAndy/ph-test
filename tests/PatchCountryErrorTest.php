@@ -7,23 +7,21 @@ namespace App\Tests;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class SearchCountryErrorTest extends ApiTestCase
+class PatchCountryErrorTest extends ApiTestCase
 {
     /**
      * @dataProvider getErrorData
      */
-    public function testSuccessSearch(?string $code, ?string $name, array $expected): void
+    public function testErrorPatch(int $id, array $search, array $expected): void
     {
         $client = static::createClient();
 
         $params = [
-            'query' => [
-                'code' => $code,
-                'name' => $name,
-            ],
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => $search,
         ];
 
-        $client->request('GET', '/api/countries/search', $params);
+        $client->request('PATCH', '/api/countries/' . $id, $params);
 
         self::assertResponseStatusCodeSame($expected['code'], $expected['message']);
     }
@@ -31,9 +29,13 @@ class SearchCountryErrorTest extends ApiTestCase
     public function getErrorData(): array
     {
         return [
-            'Search by null code and null name' => [
-                null,
-                null,
+            'Patch code null' => [
+                1,
+                [
+                    'code' => null,
+                    'name' => null,
+                    'prefix' => null,
+                ],
                 ['code' => Response::HTTP_BAD_REQUEST, 'message' => 'At least one parameter must be filled'],
             ],
         ];

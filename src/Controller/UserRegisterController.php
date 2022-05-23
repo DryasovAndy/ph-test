@@ -10,7 +10,6 @@ use App\Entity\User;
 use App\Factory\UserFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Validation;
 
 class UserRegisterController extends AbstractController
 {
@@ -23,13 +22,12 @@ class UserRegisterController extends AbstractController
 
     public function __invoke(Request $request, ValidatorInterface $validator): User
     {
-
-       $data = $request->toArray();
+        $data = $request->toArray();
 
         $username = $data['username'] ?? null;
         $password = $data['password'] ?? null;
 
-        $registerDto = new UserRegisterInputDto($username, $password );
+        $registerDto = new UserRegisterInputDto($username, $password);
 
         $validator->validate($registerDto);
 

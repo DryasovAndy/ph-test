@@ -9,7 +9,6 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\SearchLocationsCountriesDto;
 use App\Entity\LocationsCountries;
 use App\Repository\LocationsCountriesRepository;
-use Error;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -18,6 +17,7 @@ class CountriesSearchDataProvider implements CollectionDataProviderInterface, Re
     public function __construct(private readonly LocationsCountriesRepository $locationsCountriesRepository)
     {
     }
+
     public function getCollection(
         string $resourceClass,
         string $operationName = null,

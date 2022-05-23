@@ -34,52 +34,52 @@ class LocationsCountries
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     protected int $id;
 
-    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: false)]
-    protected string $name;
+    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: true)]
+    protected ?string $name;
 
-    #[ORM\Column(name: 'code', type: 'string', length: 255, nullable: false)]
-    protected string $code;
+    #[ORM\Column(name: 'code', type: 'string', length: 255, nullable: true)]
+    protected ?string $code;
 
-    #[ORM\Column(name: 'prefix', type: 'string', length: 255, nullable: false)]
-    protected string $prefix;
+    #[ORM\Column(name: 'prefix', type: 'string', length: 255, nullable: true)]
+    protected ?string $prefix;
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setCode(string $code): self
+    public function setCode(?string $code): self
     {
         $this->code = $code;
 
         return $this;
     }
 
-    public function getCode(): string
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
-    public function setPrefix(string $prefix): self
+    public function setPrefix(?string $prefix): self
     {
         $this->prefix = $prefix;
 
         return $this;
     }
 
-    public function getPrefix(): string
+    public function getPrefix(): ?string
     {
         return $this->prefix;
     }
