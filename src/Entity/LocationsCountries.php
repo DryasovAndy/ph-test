@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\DTO\LocationsCountries\LocationsCountriesInputPatch;
+use App\DTO\LocationsCountries\LocationsCountriesSearchGet;
 use App\Repository\LocationsCountriesRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,10 +15,13 @@ use Doctrine\ORM\Mapping as ORM;
         'search_countries' => [
             'method' => 'GET',
             'path' => '/countries/search',
-        ],
+            'input' => LocationsCountriesSearchGet::class,
+            ],
     ],
     itemOperations: [
-        'get',
+        'get' => [
+            'path' => '/countries/{id}',
+        ],
         'patch' => [
             'path' => '/countries/{id}',
             'input' => LocationsCountriesInputPatch::class,
@@ -35,13 +39,13 @@ class LocationsCountries
     protected int $id;
 
     #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: true)]
-    protected ?string $name;
+    protected ?string $name = null;
 
     #[ORM\Column(name: 'code', type: 'string', length: 255, nullable: true)]
-    protected ?string $code;
+    protected ?string $code = null;
 
     #[ORM\Column(name: 'prefix', type: 'string', length: 255, nullable: true)]
-    protected ?string $prefix;
+    protected ?string $prefix = null;
 
     public function getId(): int
     {

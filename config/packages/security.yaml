@@ -28,8 +28,11 @@ security:
             jwt: ~
 
     access_control:
+        - { path: ^/api/docs, roles: PUBLIC_ACCESS }
+        - { path: ^/api/countries/search, roles: PUBLIC_ACCESS}
         - { path: ^/api/(login|register), roles: PUBLIC_ACCESS, methods: ['POST'] }
-#        - { path: ^/api/countries/\d+$, roles: IS_AUTHENTICATED_FULLY, methods: [ 'PATCH' ] }
+        - { path: ^/api/countries/\d+$, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: IS_AUTHENkTICATED_FULLY }
 
 when@test:
     security:
