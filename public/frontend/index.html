@@ -1,0 +1,105 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+
+    <script src="eventsource.js"></script>
+</head>
+
+<body>
+<div class="container main">
+    <div class="row justify-content-md-end">
+        <div class="col-sm-1">
+            <span class="badge bg-light current-user" id="current-user"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <form id="form" onsubmit="countriesSend()">
+                <div class="input-group">
+                    <label for="searchCode"><b>Code</b></label>
+                    <input type="text" name="code" id="searchCode" class="form-control">
+
+                    <label for="searchName"><b>Name</b></label>
+                    <input type="text" name="name" id="searchName" class="form-control">
+
+                    <button class="btn btn-info" type="submit" id="search">Search</button>
+                </div>
+            </form>
+
+            <div id="text"></div>
+
+            <script type="application/javascript">
+                let hostname = window.location.hostname;
+                let backendBaseUrl = 'http://' + hostname + ':8888'
+                let finished = 4;
+                let success = 200;
+                let accessDenied = 401;
+
+                let accessToken = localStorage.getItem('accessToken');
+                let username = localStorage.getItem('username');
+
+                let href = new URL(window.location.href);
+                let currentUsername = document.getElementById('current-user');
+                currentUsername.innerText = username;
+
+                if (accessToken == null) {
+                    window.location.href = backendBaseUrl + '/frontend/login.html';
+                }
+
+                let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOlsiKiJdfX0.NGhQi5HmqsakZw-sz-8Y8Hjbzsi4mCR3NOI4oewNn0s';
+
+                function logout() {
+                    localStorage.clear();
+                    window.location.reload();
+                }
+
+                let form = document.getElementById('form');
+
+                form.addEventListener(
+                    'submit', countriesSend, false
+                );
+
+                function countriesSend(event) {
+
+                    let countriesCode = this.code.value;
+                    console.log(countriesCode);
+
+                    let countriesName = document.getElementById('name');
+                    let request = new XMLHttpRequest();
+
+                    let url = backendBaseUrl + '/api/countries/search?code=' + countriesCode.innerHTML + '&name=' + countriesName.innerHTML;
+                    console.log(url);
+                    // request.open('GET', url);
+                    // request.setRequestHeader('content-type', 'application/json');
+                    // // request.send();
+                    //
+                    // request.addEventListener("readystatechange", () => {
+                    //     let finished = 4;
+                    //     let success = 200;
+                    //     if (request.readyState === finished && request.status === success) {
+                    //         let members = JSON.parse(request.response)['hydra:member'];
+                    //
+                    //         console.log(members);
+                    //
+                    //         //
+                    //         // window.location.href = backendBaseUrl + '/frontend/index.html';
+                    //     }
+                    // });
+                }
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
+

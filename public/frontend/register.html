@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login page</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link href="https://bootswatch.com/5/quartz/bootstrap.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+
+    <script src="eventsource.js"></script>
+</head>
+<body>
+<div class="container main">
+
+    <div class="btn-group" role="group">
+        <a href="login.html" type="button" class="btn btn-secondary">Log in</a>
+        <a href="#" type="button" class="btn btn-secondary disabled">Register</a>
+    </div>
+
+    <form id="form" onsubmit="send()">
+        <fieldset>
+            <div class="form-group">
+                <label for="username" class="form-label mt-4">Username</label>
+                <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
+                       placeholder="username"
+                       autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label mt-4">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password"
+                       autocomplete="new-password">
+            </div>
+            <button type="submit" class="btn btn-info login-button">Register</button>
+        </fieldset>
+    </form>
+</div>
+
+<script type="application/javascript">
+    let hostname = window.location.hostname;
+    let backendBaseUrl = 'http://' + hostname + ':8888'
+
+    let accessToken = localStorage.getItem('accessToken');
+
+    if (accessToken != null) {
+        window.location.href = backendBaseUrl + '/frontend/example-full.html';
+    }
+
+    let form = document.getElementById('form');
+
+    form.addEventListener(
+        'submit', send, false
+    );
+
+    function send(event) {
+        event.preventDefault();
+
+        let username = document.getElementById('username');
+        let password = document.getElementById('password');
+        let request = new XMLHttpRequest();
+        let url = backendBaseUrl + '/api/register'
+
+        request.open('POST', url);
+        request.setRequestHeader('content-type', 'application/json');
+        request.send(JSON.stringify({'username': username.value, 'password': password.value}));
+
+        request.addEventListener("readystatechange", () => {
+            let finished = 4;
+            let success = 201;
+            if (request.readyState === finished && request.status === success) {
+                window.location.href = backendBaseUrl + '/frontend/login.html';
+            }
+        });
+    }
+</script>
+</body>
+</html>
