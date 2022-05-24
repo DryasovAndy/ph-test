@@ -16,6 +16,23 @@ use Doctrine\ORM\Mapping as ORM;
             'method' => 'GET',
             'path' => '/countries/search',
             'input' => LocationsCountriesSearchGet::class,
+            'openapi_context' => [
+                'summary' => 'Find countries by name or code',
+                'parameters' => [
+                    [
+                        'in' => 'query',
+                        'name' => 'name',
+                        'type' => 'string',
+                        'required' => false
+                    ],
+                    [
+                        'in' => 'query',
+                        'name' => 'code',
+                        'type' => 'string',
+                        'required' => false
+                    ]
+                ],
+            ],
         ],
     ],
     itemOperations: [

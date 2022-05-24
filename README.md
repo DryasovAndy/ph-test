@@ -2,6 +2,7 @@
  - Docker
  - Symfony 6.0
  - php 8.1
+ - mariaDb
  - API Platform for generating API and documentation
  - lexik/jwt for authentication
  - phpUnit for tests
